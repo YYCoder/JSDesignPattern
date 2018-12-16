@@ -1,11 +1,13 @@
+/**
+ * 简单的接口实现，通过 checkImplements 检查是否存在指定属性或方法
+ */
 class Interface {
   constructor(name, methods = []) {
     this.name = name
     this.methods = methods
   }
   checkImplements(instance) {
-    const keys = Object.getOwnPropertyNames(instance)
-    return this.methods.every((method) => keys.indexOf(method) !== -1)
+    return this.methods.every((method) => method in instance)
   }
 }
 

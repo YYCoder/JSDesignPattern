@@ -1,6 +1,6 @@
 const { log } = require('../utils')
 const Interface = require('./interface')
-const Animal = new Interface('Animal', ['eat', 'drink'])
+const AnimalInterface = new Interface('Animal', ['eat', 'drink'])
 class Cat {
   constructor(name) {
     this.name = name
@@ -14,4 +14,4 @@ class Cat {
 }
 
 const myCat = new Cat('lulu')
-log(Animal.checkImplements(myCat, [Animal]))
+log(AnimalInterface.checkImplements(myCat, [AnimalInterface]))

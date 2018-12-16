@@ -7,7 +7,7 @@
  *   3. 工厂模式根据抽象程度的不同可以分为：简单工厂，工厂方法和抽象工厂
  * 
  */
-const { log } = require('../utils')
+const { log } = require('../../utils')
 /**
  * 简单工厂模式
  *

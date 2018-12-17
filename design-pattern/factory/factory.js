@@ -36,7 +36,7 @@ function humanFactory(sex, name) {
 /**
  * 工厂方法模式
  *
- * 核心：将创建实例推迟到子类中进行（本例即 Man、Woman）
+ * 核心：将创建实例推迟到子类中进行（本例即 UserFactory）
  *
  * 思路：
  *   1. 安全模式：即无论是否添加 new 运算符，都会正常实例化对象的构造函数模式
@@ -63,7 +63,7 @@ UserFactory.prototype.Woman = function (name) {
  * 抽象工厂模式
  *
  * 思路：
- *   1. 抽象工厂模式并不直接生成实例，而是用于对类的继承（其实作用跟继承函数 extend 相同，只不过将要被继承的类放在抽象工厂的属性中）
+ *   1. 抽象工厂模式并不直接生成实例，而是用于对类的继承（其实作用跟继承函数 extend 相同，只不过将要被继承的类放在抽象工厂的属性中），从而生产出具有指定特征的子类（可以把抽象工厂当成一个生产子类的工厂）
  */
 function AbstractUserFactory(subClass, superClass) {
   if (typeof AbstractUserFactory[superClass] === 'function') {

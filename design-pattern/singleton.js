@@ -42,7 +42,6 @@ const { log } = require('../utils')
  * 思路：
  *   1. 在闭包中保存两个单例对象，判断条件后返回正确的单例对象
  *   2. 两单例拥有完全相同的接口，从而在调用时可以无需关注内部差异
- *
  */
 global.condition = true
 ~(function () {

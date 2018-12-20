@@ -24,7 +24,7 @@ const { log } = require('../utils')
 function getDateString(timestamp) {
   return new Date(timestamp).toDateString()
 }
-// 原始computer对象：所有属性都保存在实例中，若需要多个不同属性的实例，即使实例中某些属性是相同的，则要重复实例化多个，浪费内存
+// 原始 computer 对象：所有属性都保存在实例中，若需要多个不同属性的实例，即使实例中某些属性是相同的，则要重复实例化多个，浪费内存
 class Computer {
   constructor({ cpu, ram, rom, id, owner }) {
     this.cpu = cpu
@@ -53,9 +53,6 @@ class Computer {
   addROM(gb) {
     this.rom += gb
   }
-  changeOwner(newOwner) {
-    this.owner = newOwner
-  }
 }
 /*const computer = new Computer({
   cpu: 'i7', ram: 6, rom: 128, id: 1, owner: 'Markey'
@@ -63,6 +60,7 @@ class Computer {
 computer.start()
 computer.addRAM(8)*/
 
+// 1. 使用管理器对象管理所有享元对象
 // 享元对象（ConcreteFlyweight）：使用享元模式，将类进行内部、外部数据的划分
 class FlyweightComputer {
   constructor({ cpu, date }) {
@@ -121,20 +119,55 @@ const c2 = computerManager.createComputer({
   cpu: 'i5',
   owner: 'Michael'
 })
-c1.addRAM(5)
+/*c1.addRAM(5)
 log(c1)
 log(c2)
-log(c1 instanceof Computer)
+log(c1 instanceof Computer)*/
 
 
-
-
-
-
-
-
-
-
+// 2. 使用组合模式共享享元对象，所有享元对象都是叶子对象
+// 年月日组合对象：让所有 Day 对象都使用享元，它的 display 方法的值通过参数传入，从而无需实例化365个 Day 对象
+class Year {
+  constructor(year) {
+    this.year = year
+    this.numOfDays = [31, isLeapYear(year) ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+    this.months = this.numOfDays.map((days, index) => new Month(index+1, days))
+    function isLeapYear(year) {
+      return year > 0 && (year % 4) === 0
+    }
+  }
+  display() {
+    log(`${this.year}年：`)
+    this.months.forEach(month => month.display())
+  }
+}
+class Month {
+  constructor(month, days) {
+    this.month = month
+    this.numOfDays = days
+    this.days = []
+    for (let i = 1; i <= days; i++) {
+      // 若不使用享元，则传统的方法是在这里实例化每个 Day 对象，display 方法中就是调用每个实例的 display 方法
+      this.days[i] = i
+    }
+  }
+  display() {
+    log(`  ${this.month}月：`)
+    log(this.days.reduce(
+      (prev, next) => prev + flyweightDay.display(next) + ' ',
+      '    '
+    ))
+  }
+}
+class Day {
+  constructor() {}
+  display(day) {
+    return day + '号'
+  }
+}
+/*const flyweightDay = new Day()
+const year = new Year(2017)
+year.display()*/
 
 
 
